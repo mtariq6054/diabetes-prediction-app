@@ -6,10 +6,10 @@ page_bg_img = f"""
 <style>
 [data-testid="stAppViewContainer"] > .main {{
 background-image: url("https://images.rawpixel.com/image_800/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm0zNzNiYXRjaDE1LTIxNy0wMS5qcGc.jpg");
-background-size: 150%;
-background-position: top left;
+background-size: cover;
+background-position: center;
 background-repeat: no-repeat;
-background-attachment: local;
+background-attachment: fixed;
 }}
 
 
