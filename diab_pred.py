@@ -6,6 +6,9 @@ import seaborn as sns
 df = pd.read_csv(r'C:\Users\12\Documents\diabetes_Prediction Project\diabetes_df new.csv')
 df.drop(['gender','smoking_history'], inplace=True, axis=1)
 
+# to find is there any null value have this dataset 
+print(df.isnull().sum())
+
 # Split data to be used in the models
 # Create matrix of features
 X = df.drop('diabetes', axis = 1) # grabs everything else but 'Survived'
