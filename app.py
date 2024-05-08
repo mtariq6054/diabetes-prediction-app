@@ -1,3 +1,6 @@
+# ********************************************
+# ^^^^^^^^^^^^^^^^^^^^^ PROBABILITY CODE^^^^^^^^^^^^^^^^^^^^^^^^
+# ********************************************
 import streamlit as st
 import joblib
 import pandas as pd
@@ -25,16 +28,14 @@ right: 2rem;
 
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-
-
 # Load the saved model
 model = joblib.load('random_forest_model.pkl')
 
 # Function to predict diabetes
 def predict_diabetes(data):
     prediction = model.predict(data)
-    return prediction
-
+    probability = model.predict_proba(data)[:, 1]  # Extract probability of class 1
+    return prediction, probability
 
 # Streamlit app
 def main():
@@ -79,47 +80,32 @@ def main():
         'blood_glucose_level': [blood_glucose_level]
     })
 
-     # Predict button 
+    # Predict button 
     if st.button("Predict", key="predict_button"):
-        result = predict_diabetes(input_data)
+        result, probability = predict_diabetes(input_data)
         if result[0] == 0:
             st.markdown(
-                """
+                f"""
                 <div style="background-color:#f9f9f9;padding:0px;border-radius:20px;">
                     <h3 style="color:#f63366;text-align:center;">Results:</h3>
-                    <p style="text-align:center;font-size:24px;">You are healthy.</p>
+                    <p style="text-align:center;font-size:24px;">You are healthy with probability {probability[0]:.2f}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
         elif result[0] == 1:
             st.markdown(
-                """
+                f"""
                 <div style="background-color:#f9f9f9;padding:0px;border-radius:20px;">
                     <h3 style="color:#f63366;text-align:center;">Results:</h3>
-                    <p style="text-align:center;font-size:24px;">You are diabetic.</p>
+                    <p style="text-align:center;font-size:24px;">You are diabetic with probability {probability[0]:.2f}</p>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
 
-# ******************* 0 and 1 result show ho ga ****************
-    # # Predict button 
-    # if st.button("Predict", key="predict_button"):
-    #     Results = predict_diabetes(input_data)
-    #     st.markdown(
-    #         f"""
-           
-    #  <div style="background-color:#f9f9f9;padding:0px;border-radius:20px;">
-    #             <h3 style="color:#f63366;text-align:center;">Results:</h3>
-    #             <p style="text-align:center;font-size:24px;">{Results[0]}</p>
-    #         </div>
-    #         """,
-    #         unsafe_allow_html=True
-    #     )
-
-
 if __name__ == '__main__':
     # Set background image
     main()
     st.write ("Made by Anaiza")
+
